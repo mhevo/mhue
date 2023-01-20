@@ -1,8 +1,8 @@
 <x-config-layout>
     <ul>
-        @foreach($lights as $light)
+        @foreach($rooms as $room)
             <li>
-                {{ $light->label }} <a href="/configuration/lights/edit/{{ $light->id }}">
+                {{ $room->label }} <a href="/configuration/rooms/edit/{{ $room->id }}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
             </li>

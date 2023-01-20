@@ -21,4 +21,22 @@ class LightController extends Controller
         $params = ['light' => $light];
         return view('config.lightedit', $params);
     }
+
+    public function editLight($lightId, Request $request)
+    {
+        $light = Lights::where('id', (int) $lightId)->first();
+        $light->label = $request->get('label');
+        $light->save();
+
+        $params = ['light' => $light];
+        return view('config.lightedit', $params);
+    }
+
+    public function deleteLight($lightId)
+    {
+        $light = Lights::where('id', (int) $lightId)->first();
+        $light->delete();
+
+        return $this->listLights();
+    }
 }

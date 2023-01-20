@@ -11,11 +11,14 @@
             <div class="row mt-3">
                 <div class="col-2"></div>
                 <div class="col-4">
-                    <input class="btn btn-success" type="submit" name="submit" value="Save" />
+                    <input class="btn btn-outline-success" type="submit" name="submit" value="{{ __('configuration.save') }}" />
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">{{ __('configuration.delete') }}</button>
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-12">Imported Values</div>
+                <div class="col-12">{{ __('configuration.imported-values') }}</div>
             </div>
             <div class="row">
                 <div class="col-5">ID</div>
@@ -64,20 +67,5 @@
         </div>
 
     </form>
+    @include('config.lightedit-delete-modal')
 </x-config-layout>
-
-{{--"id" => 1--}}
-{{--"id_bridge" => 1--}}
-{{--"label" => "Wohnzimmer 3"--}}
-{{--"hue_id" => 1--}}
-{{--"hue_type" => "Extended color light"--}}
-{{--"hue_name" => "Wohnzimmer 3"--}}
-{{--"hue_modelid" => "LCG002"--}}
-{{--"hue_manufacturername" => "Signify Netherlands B.V."--}}
-{{--"hue_productname" => "Hue color spot"--}}
-{{--"hue_uniqueid" => "00:17:88:01:0b:bd:07:cd-0b"--}}
-{{--"hue_swversion" => "1.101.7"--}}
-{{--"hue_swconfigid" => "D779D146"--}}
-{{--"hue_productid" => "Philips-LCG002-3-GU10ECLv2"--}}
-{{--"created_at" => "2023-01-15 23:09:23"--}}
-{{--"updated_at" => "2023-01-15 23:09:23"--}}

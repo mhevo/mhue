@@ -12,13 +12,6 @@
     <title>{{ config('app.name', 'Mhue') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{--@vite([
-    'resources/css/bootstrap.css',
-    'resources/css/bootstrap-nightfall.css',
-    'resources/js/jquery-3.6.2.min.js',
-    'resources/js/bootstrap.min.js'
-    ])--}}
 </head>
 <body class="baaltor">
 @include('default.header')
