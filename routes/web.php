@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BridgeController;
 use App\Http\Controllers\LightController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,10 @@ use App\Http\Controllers\LightController;
 |
 */
 
-Route::get('/', function () {
-    return view('start');
-});
+Route::get(
+    '/',
+    [DashboardController::class, 'dashboard']
+);
 
 Route::get('/configuration', function () {
     return view('config.configuration');
@@ -45,4 +48,37 @@ Route::get(
 Route::get(
     '/configuration/lights/edit/{lightId}',
     [LightController::class, 'showLight']
+);
+Route::post(
+    '/configuration/lights/edit/{lightId}',
+    [LightController::class, 'editLight']
+);
+Route::get(
+    '/configuration/lights/delete/{lightId}',
+    [LightController::class, 'deleteLight']
+);
+
+Route::get(
+    '/configuration/rooms',
+    [RoomController::class, 'listRooms']
+);
+Route::get(
+    '/configuration/rooms/edit/{roomId}',
+    [RoomController::class, 'showRoom']
+);
+Route::post(
+    '/configuration/rooms/edit/{roomId}',
+    [RoomController::class, 'editRoom']
+);
+Route::get(
+    '/configuration/rooms/delete/{roomId}',
+    [RoomController::class, 'deleteRoom']
+);
+Route::post(
+    '/configuration/rooms/addlights',
+    [RoomController::class, 'addLightsToRoom']
+);
+Route::post(
+    '/configuration/rooms/removelight',
+    [RoomController::class, 'removeLightFromRoom']
 );

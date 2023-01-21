@@ -2,22 +2,22 @@
     @isset($type)
     @include('config.imported')
     @endisset
-    Add a new bridge:<br />
+        {{ __('configuration.add-new-bridge') }}<br />
     <form method="post" action="/configuration/bridges/new">
         @csrf
-        <input type="text" name="label" placeholder="Label"><br />
-        <input type="text" name="ip" placeholder="IP-Address"><br />
-        <input type="text" name="username" placeholder="username"><br />
-        <input class="btn btn-" type="submit" name="submit" value="add new bridge">
+        <input class="mt-1" type="text" name="label" placeholder="{{ __('configuration.bridge-label') }}"><br />
+        <input class="mt-1" type="text" name="ip" placeholder="{{ __('configuration.bridge-ip') }}"><br />
+        <input class="mt-1" type="text" name="username" placeholder="{{ __('configuration.bridge-username') }}"><br />
+        <input class="btn btn-outline-success mt-1" type="submit" name="submit" value="{{ __('configuration.bridge-submit') }}">
     </form>
     <br />
     <br />
-    Active bridges:<br />
+        {{ __('configuration.bridge-active-bridges') }}<br />
     @foreach($bridges as $bridge)
         {{ $bridge->label }} - {{ $bridge->ip }} - {{ $bridge->username }}<br />
-        <a href="/configuration/bridges/import/lights/{{ $bridge->id }}">Import Lights</a>
-        <a href="/configuration/bridges/import/rooms/{{ $bridge->id }}">Import Rooms</a>
-{{--        <a href="/configuration/bridges/import/zones/{{ $bridge->id }}">Import Zones</a>--}}
+        <a class="btn btn-outline-success" href="/configuration/bridges/import/lights/{{ $bridge->id }}">{{ __('configuration.bridge-import-lights') }}</a>
+        <a class="btn btn-outline-success" href="/configuration/bridges/import/rooms/{{ $bridge->id }}">{{ __('configuration.bridge-import-rooms') }}</a>
+        <br />
         <br />
     @endforeach
 </x-config-layout>

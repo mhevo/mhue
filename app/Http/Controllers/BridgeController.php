@@ -96,6 +96,9 @@ class BridgeController extends Controller
 
     private function importRooms(int $bridgeId): int
     {
+        /**
+         * @todo import type zone as zone not as room, see "Badezimmer, Obergeschoß"
+         */
         $bridge = Bridges::where('id', $bridgeId)->first();
         $client = $this->getClient($bridge->ip, $bridge->username);
         $rooms = $client->getGroups();
