@@ -114,4 +114,19 @@ class RoomController extends Controller
         }
         return json_encode($out);
     }
+
+    public function removeLightFromRoom(Request $request)
+    {
+        $idRoom = (int) $request->get('room_id');
+        $idLight = (int) $request->get('light_id');
+
+        if ($idRoom <= 0 || $idLight <= 0) {
+            return false;
+        }
+        $lightsRooms = LightsRooms::where('id_room', $idRoom)
+            ->where('id_light', $idLight)
+            ->first();
+        $lightsRooms->delete();
+        return json_encode($idLight);
+    }
 }

@@ -1,7 +1,7 @@
 <x-config-layout>
-    <ul>
+    <ul class="list-group">
         @foreach($rooms as $room)
-            <li>
+            <li class="list-group-item">
                 {{ $room->label }} <a href="/configuration/rooms/edit/{{ $room->id }}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>

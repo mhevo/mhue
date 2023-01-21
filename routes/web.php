@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BridgeController;
 use App\Http\Controllers\LightController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,10 @@ use App\Http\Controllers\RoomController;
 |
 */
 
-Route::get('/', function () {
-    return view('start');
-});
+Route::get(
+    '/',
+    [DashboardController::class, 'dashboard']
+);
 
 Route::get('/configuration', function () {
     return view('config.configuration');
@@ -75,4 +77,8 @@ Route::get(
 Route::post(
     '/configuration/rooms/addlights',
     [RoomController::class, 'addLightsToRoom']
+);
+Route::post(
+    '/configuration/rooms/removelight',
+    [RoomController::class, 'removeLightFromRoom']
 );
