@@ -32,8 +32,6 @@ $(document).ready(function () {
    });
 
     $('.delete-light-button').on('click', this, function() {
-        console.log($(this).data('room-id'));
-        console.log($(this).data('light-id'));
         $.ajax({
             url: '/configuration/rooms/removelight',
             type: 'post',
