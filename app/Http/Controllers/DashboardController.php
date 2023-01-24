@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lights;
+use App\Models\LightsRooms;
 use App\Models\LightStates;
 use App\Models\Rooms;
 use Illuminate\Http\Request;
@@ -61,15 +62,60 @@ class DashboardController extends Controller
         $setLightState->on($state);
 
         $client->sendCommand($setLightState);
+
+        $this->pullstate($idLight);
+
+        $roomIds = [];
+        $lightsRooms = LightsRooms::where('id_light', $idLight)->get();
+        foreach ($lightsRooms as $lightsRoom) {
+            $roomIds[] = $lightsRoom->id_room;
+        }
+
         return json_encode(
             [
                 'state' => $state === true ? 'on' : 'off',
-                'light_id' => $idLight
+                'light_id' => $idLight,
+                'room_ids' => $roomIds
             ]
         );
     }
 
-    public function pullstate(Request $request, $lightId)
+    public function switchroom(Request $request)
+    {
+        $rState = $request->get('state');
+        $idRoom = (int) $request->get('room_id');
+
+        $state = true;
+        if ($rState === 'on') {
+            $state = false;
+        }
+
+        $lightsRooms = LightsRooms::where('id_room', $idRoom)->get();
+        $lightIds = [];
+        foreach ($lightsRooms as $lightRoom) {
+            $light = $lightRoom->light()->first();
+            $bridge = $light->bridge()->first();
+
+            $client = new Client($bridge->ip, $bridge->username);
+            $setLightState = new SetLightState($light->hue_id);
+            $setLightState->on($state);
+
+            $client->sendCommand($setLightState);
+
+            $this->pullstate($light->id);
+            $lightIds[] = $light->id;
+        }
+
+        return json_encode(
+            [
+                'state' => $state === true ? 'on' : 'off',
+                'room_id' => $idRoom,
+                'light_ids' => $lightIds
+            ]
+        );
+    }
+
+    public function pullstate($lightId)
     {
         $ls = new LightStates();
         $ls->pullState($lightId);

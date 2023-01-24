@@ -1,5 +1,5 @@
 <div id="collapse{{ $room->id }}" class="collapse" aria-labelledby="heading{{ $room->id }}" data-bs-parent="accordionRoom">
-    <div class="card-body">
+    <div class="card-body container">
         @foreach($param['lights'] as $light)
             @include('dashboard.light-entry')
         @endforeach

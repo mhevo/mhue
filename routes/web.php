@@ -37,6 +37,11 @@ Route::post(
     [DashboardController::class, 'switchlight']
 );
 
+Route::post(
+    '/switch/room',
+    [DashboardController::class, 'switchroom']
+);
+
 Route::get('/configuration', function () {
     return view('config.configuration');
 });

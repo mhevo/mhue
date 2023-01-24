@@ -5,7 +5,7 @@
             $room = $param['room'];
             $state = $param['states'];
             @endphp
-            <div class="card">
+            <div class="card mb-2">
                 @include('dashboard.card-header')
                 @include('dashboard.card-body')
             </div>

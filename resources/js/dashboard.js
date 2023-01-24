@@ -13,19 +13,58 @@ $(document).ready(function () {
                 state: $(this).data('state'),
                 light_id: $(this).data('light-id'),
             },
-            // beforeSend: function () {
-            //     $('.alert').addClass('alert-info').html('<i class="fa-solid fa-spinner fa-spin"></i>').show()
-            // },
             success: function (response) {
                 let json = JSON.parse(response);
-                console.log(json.state);
-                console.log(json.light_id);
                 if (json.state === 'on') {
                     $('.light-switch-on-' + json.light_id).show();
                     $('.light-switch-off-' + json.light_id).hide();
+                    for (let i = 0; i < json.room_ids.length; i++) {
+                        $('.room-switch-on-' + json.room_ids[i]).show();
+                        $('.room-switch-off-' + json.room_ids[i]).hide();
+                    }
                 } else {
                     $('.light-switch-on-' + json.light_id).hide();
                     $('.light-switch-off-' + json.light_id).show();
+
+                    for (let i = 0; i < json.room_ids.length; i++) {
+                        let lightswitches = $('a.room-id-' + json.room_ids[i] + '[class*="light-switch-on-"]:visible');
+                        if (lightswitches.length <= 0) {
+                            $('.room-switch-on-' + json.room_ids[i]).hide();
+                            $('.room-switch-off-' + json.room_ids[i]).show();
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    $('.room-switch').on('click', function () {
+        $.ajax({
+            url: '/switch/room',
+            type: 'post',
+            data: {
+                state: $(this).data('state'),
+                room_id: $(this).data('room-id'),
+            },
+            success: function (response) {
+                let json = JSON.parse(response);
+
+                console.log(json);
+                if (json.state === 'on') {
+                    $('.room-switch-on-' + json.room_id).show();
+                    $('.room-switch-off-' + json.room_id).hide();
+                    for (let i = 0; i < json.light_ids.length; i++) {
+                        $('.light-switch-on-' + json.light_ids[i]).show();
+                        $('.light-switch-off-' + json.light_ids[i]).hide();
+                    }
+                } else {
+
+                    $('.room-switch-on-' + json.room_id).hide();
+                    $('.room-switch-off-' + json.room_id).show();
+                    for (let i = 0; i < json.light_ids.length; i++) {
+                        $('.light-switch-on-' + json.light_ids[i]).hide();
+                        $('.light-switch-off-' + json.light_ids[i]).show();
+                    }
                 }
             }
         });
