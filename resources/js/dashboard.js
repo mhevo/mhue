@@ -69,4 +69,19 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.set-room-color').on('click', function () {
+        $.ajax({
+            url: '/room/set/color',
+            type: 'post',
+            data: {
+                state: 'on',
+                room_id: $(this).data('room-id'),
+                color: $('#set-room-color-' + $(this).data('room-id')).val()
+            },
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    });
 });

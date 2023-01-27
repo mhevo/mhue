@@ -115,6 +115,57 @@ class DashboardController extends Controller
         );
     }
 
+    public function roomcolor(Request $request)
+    {
+        $idRoom = (int) $request->get('room_id');
+        $color = $request->get('color');
+        $rgbColors = [];
+        $state = true;
+
+        preg_match_all('/[0-9\.]+/', $color, $rgbColors);
+
+        if (isset($rgbColors[0]) === false || count($rgbColors[0]) !== 4) {
+            return json_encode(
+                [
+                    'status' => '500',
+                    'error' => 'Wrong RGB color'
+                ]
+            );
+        }
+
+        $colorRed = $rgbColors[0][0];
+        $colorGreen = $rgbColors[0][1];
+        $colorBlue = $rgbColors[0][2];
+        $colorBrightness = $rgbColors[0][3];
+
+        $lightsRooms = LightsRooms::where('id_room', $idRoom)->get();
+        $lightIds = [];
+        foreach ($lightsRooms as $lightRoom) {
+            $light = $lightRoom->light()->first();
+            $bridge = $light->bridge()->first();
+
+            $client = new Client($bridge->ip, $bridge->username);
+            $setLightState = new SetLightState($light->hue_id);
+            $setLightState->on($state);
+
+            $setLightState->rgb($colorRed, $colorGreen, $colorBlue);
+            $setLightState->brightness($light->convertBrightness($colorBrightness));
+
+            $client->sendCommand($setLightState);
+
+            $this->pullstate($light->id);
+            $lightIds[] = $light->id;
+        }
+
+        return json_encode(
+            [
+                'state' => $state === true ? 'on' : 'off',
+                'room_id' => $idRoom,
+                'light_ids' => $lightIds
+            ]
+        );
+    }
+
     public function pullstate($lightId)
     {
         $ls = new LightStates();

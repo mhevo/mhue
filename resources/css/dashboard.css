@@ -1,4 +1,7 @@
-.fs-touchbutton
-{
+.fs-touchbutton {
     font-size: 1.8rem;
+}
+
+.pointer {
+    cursor: pointer;
 }

@@ -42,6 +42,11 @@ Route::post(
     [DashboardController::class, 'switchroom']
 );
 
+Route::post(
+    '/room/set/color',
+    [DashboardController::class, 'roomcolor']
+);
+
 Route::get('/configuration', function () {
     return view('config.configuration');
 });

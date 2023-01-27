@@ -12,18 +12,17 @@ class Lights extends Model
 {
     use HasFactory;
 
-//    protected static function booted()
-//    {
-//        parent::booted();
-//
-//        if ($this->id <= 0) {
-//            return;
-//        }
-//
-//        $state = $this->state()->first();
-//        $state->pullState($this->id);
-//
-//    }
+    /**
+     * converts values from 0 to 1 (e.g. 0.12) to a value between 0 and 255
+     *
+     * @param float $brightness
+     * @return int
+     */
+    public function convertBrightness(float $brightness): int
+    {
+        $factor = 1 / 255;
+        return ceil($brightness / $factor);
+    }
 
     public function lightsRooms(): HasMany
     {
