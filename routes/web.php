@@ -22,6 +22,31 @@ Route::get(
     [DashboardController::class, 'dashboard']
 );
 
+Route::get(
+    '/pull/state/{lightId}',
+    [DashboardController::class, 'pullstate']
+);
+
+Route::get(
+    '/pull/states',
+    [DashboardController::class, 'pullstates']
+);
+
+Route::post(
+    '/switch/light',
+    [DashboardController::class, 'switchlight']
+);
+
+Route::post(
+    '/switch/room',
+    [DashboardController::class, 'switchroom']
+);
+
+Route::post(
+    '/room/set/color',
+    [DashboardController::class, 'roomcolor']
+);
+
 Route::get('/configuration', function () {
     return view('config.configuration');
 });
