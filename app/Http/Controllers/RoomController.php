@@ -57,16 +57,29 @@ class RoomController extends Controller
             'unAssignedLights' => $unassignedLights,
             'usedRoom' => $usedRoom,
         ];
+
         return view('config.roomedit', $params);
     }
 
     public function editRoom($roomId, Request $request)
     {
-        $room = Rooms::where('id', (int) $roomId)->first();
+        if ((int) $roomId === 0) {
+            $room = new Rooms();
+            $room->id_bridge = (int) env('PHUE_BRIDGE_DEFAULT', 1);
+            $room->hue_id = 0;
+            $room->hue_type = '';
+            $room->hue_name = '';
+            $room->hue_class = '';
+        } else {
+            $room = Rooms::where('id', (int)$roomId)->first();
+        }
         $room->label = $request->get('label');
         $room->save();
 
         $params = ['room' => $room];
+        if ((int) $roomId === 0) {
+            return redirect('/configuration/rooms/edit/' . $room->id);
+        }
         return view('config.roomedit', $params);
     }
 
@@ -128,5 +141,13 @@ class RoomController extends Controller
             ->first();
         $lightsRooms->delete();
         return json_encode($idLight);
+    }
+
+    public function newRoom()
+    {
+        $room = new Rooms();
+
+        $params = ['room' => $room];
+        return view('config.roomedit', $params);
     }
 }

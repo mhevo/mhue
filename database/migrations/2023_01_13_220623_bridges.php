@@ -20,6 +20,14 @@ return new class extends Migration
             $table->text('label');
             $table->timestamps();
         });
+
+        DB::table('bridges')->insert(
+            array(
+                'ip' => '0.0.0.0',
+                'username' => 'mhevo',
+                'label' => 'mhuebridge',
+            )
+        );
     }
 
     /**

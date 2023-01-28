@@ -62,6 +62,11 @@ Route::get(
     '/configuration/rooms',
     [RoomController::class, 'listRooms']
 );
+
+Route::get(
+    '/configuration/rooms/new',
+    [RoomController::class, 'newRoom']
+);
 Route::get(
     '/configuration/rooms/edit/{roomId}',
     [RoomController::class, 'showRoom']

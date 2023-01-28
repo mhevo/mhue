@@ -12,17 +12,19 @@
                     @csrf
                     <input type="hidden" name="room-id" value="{{ $room->id }}">
                     <ul class="list-group">
-                        @foreach($unAssignedLights as $uAL)
-                            <li class="list-group-item">
-                                <input id="add-{{ $uAL->id }}" class="add-checkbox" type="checkbox" name="light-ids[]" value="{{ $uAL->id }}" />
-                                <label for="add-{{ $uAL->id }}">
-                                    {{ $uAL->label }}
-                                    @if(isset($usedRoom[$uAL->id]) === true && strlen($usedRoom[$uAL->id]) > 0)
-                                        ({{ $usedRoom[$uAL->id] }})
-                                    @endif
-                                </label>
-                            </li>
-                        @endforeach
+                        @if (isset($unAssignedLights) === true && is_null($unAssignedLights) === false)
+                            @foreach($unAssignedLights as $uAL)
+                                <li class="list-group-item">
+                                    <input id="add-{{ $uAL->id }}" class="add-checkbox" type="checkbox" name="light-ids[]" value="{{ $uAL->id }}" />
+                                    <label for="add-{{ $uAL->id }}">
+                                        {{ $uAL->label }}
+                                        @if(isset($usedRoom[$uAL->id]) === true && strlen($usedRoom[$uAL->id]) > 0)
+                                            ({{ $usedRoom[$uAL->id] }})
+                                        @endif
+                                    </label>
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
                 </form>
             </div>

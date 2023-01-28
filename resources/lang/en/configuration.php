@@ -26,4 +26,5 @@ return [
     'lights-add' => 'Add new lights',
     'room-add-modal-headline' => 'Add lights',
     'add' => 'Add lights to room',
+    'new-room' => 'new room'
 ];
