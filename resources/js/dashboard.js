@@ -84,4 +84,19 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.set-light-color').on('click', function () {
+        $.ajax({
+            url: '/light/set/color',
+            type: 'post',
+            data: {
+                state: 'on',
+                light_id: $(this).data('light-id'),
+                color: $('#set-light-color-' + $(this).data('light-id')).val()
+            },
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    });
 });

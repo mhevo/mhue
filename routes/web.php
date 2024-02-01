@@ -47,6 +47,11 @@ Route::post(
     [DashboardController::class, 'roomcolor']
 );
 
+Route::post(
+    '/light/set/color',
+    [DashboardController::class, 'lightcolor']
+);
+
 Route::get('/configuration', function () {
     return view('config.configuration');
 });

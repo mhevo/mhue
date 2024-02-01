@@ -166,6 +166,51 @@ class DashboardController extends Controller
         );
     }
 
+    public function lightcolor(Request $request)
+    {
+        $idLight = (int) $request->get('light_id');
+        $color = $request->get('color');
+        $rgbColors = [];
+
+        preg_match_all('/[0-9\.]+/', $color, $rgbColors);
+
+        if (isset($rgbColors[0]) === false || count($rgbColors[0]) !== 4) {
+            return json_encode(
+                [
+                    'status' => '500',
+                    'error' => 'Wrong RGB color'
+                ]
+            );
+        }
+
+        $colorRed = $rgbColors[0][0];
+        $colorGreen = $rgbColors[0][1];
+        $colorBlue = $rgbColors[0][2];
+        $colorBrightness = $rgbColors[0][3];
+
+        $light = Lights::where('id', $idLight)->first();
+
+        $bridge = $light->bridge()->first();
+
+        $client = new Client($bridge->ip, $bridge->username);
+        $setLightState = new SetLightState($light->hue_id);
+        $setLightState->on(true);
+
+        $setLightState->rgb($colorRed, $colorGreen, $colorBlue);
+        $setLightState->brightness($light->convertBrightness($colorBrightness));
+
+        $client->sendCommand($setLightState);
+
+        $this->pullstate($light->id);
+
+        return json_encode(
+            [
+                'state' => 'on',
+                'light_id' => $idLight
+            ]
+        );
+    }
+
     public function pullstate($lightId)
     {
         $ls = new LightStates();
